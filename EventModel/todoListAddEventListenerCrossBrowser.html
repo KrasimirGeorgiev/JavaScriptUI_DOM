@@ -1,0 +1,126 @@
+﻿<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title>TODO list</title>
+    <style>
+        button {
+            color: white;
+        }
+
+        .red {
+            background-color: red;
+        }
+
+        .green {
+            background-color: green;
+        }
+    </style>
+</head>
+<body>
+    <h1 id="header">Event Model</h1>
+    <input id="input-li" type="text" />
+    <button id="btn-add" class="green">Add TODO</button>
+    <button id="btn-show" class="red">Hide list</button>
+    <ul>
+        <li>
+            TODO List
+            <ol id="actual-list"></ol>
+        </li>
+    </ul>
+    <script>
+        function addEventHandler(el, eventType, callback, useCapture) {
+            if (document.addEventListener) {
+                el.addEventListener(eventType, callback, useCapture);
+            }
+            else if (document.attachEvent) {
+                el.attachEvent('on' + eventType, callback);
+            }
+            else {
+                el['on' + eventType] = callback;
+            }
+        }
+
+        (function () {
+            var btnAdd = document.getElementById('btn-add'),
+                btnShow = document.getElementById('btn-show'),
+                list = document.getElementById('actual-list'),
+                li = document.createElement('li'),
+                span = document.createElement('span'),
+                deleteButton = document.createElement('button'),
+                inputElement = document.getElementById('input-li');
+            deleteButton.className = 'red';
+            deleteButton.innerHTML = 'Delete';
+            li.appendChild(span);
+            li.appendChild(deleteButton);
+
+
+            addEventHandler(btnAdd, 'click', addTODO);
+            addEventHandler(btnShow, 'click', showHideList);
+            // attach to parrent and check if button is clicked or parent
+            addEventHandler(list, 'click', deleteIfDeleteButtonClicked, false);
+
+            function addTODO() {
+                var todoText = inputElement.value;
+                if (!todoText) {
+                    return;
+                }
+
+                span.innerHTML = todoText;
+                list.appendChild(li.cloneNode(true));
+            }
+
+            function showHideList(event) {
+                var list = document.getElementById('actual-list'),
+                    showButton = document.getElementById('btn-show');
+                if (list.style.display === 'none') {
+                    list.style.display = 'block';
+                    showButton.innerHTML = 'Hide list';
+                    showButton.className = 'red';
+                }
+                else {
+                    list.style.display = 'none';
+                    showButton.innerHTML = 'Show list';
+                    showButton.className = 'green';
+                }
+            }
+
+            function deleteIfDeleteButtonClicked(event) {
+                if (!event) {
+                    event = window.event
+                }
+
+                var target = event.target;
+                var parent = target.parentNode;
+                if (target.nodeName === 'BUTTON') {
+                    parent.parentNode.removeChild(parent);
+                }
+            }
+        }());
+
+        (function () {
+            var event = new CustomEvent('tripleClick'),
+                h1 = document.getElementById('header'),
+                counter = 0;
+            addEventHandler(h1, 'tripleClick', function () {
+                alert('Clicked 3 times!');
+            });
+            addEventHandler(h1, 'click', function (ev) {
+                //if (ev.detail === 3) {
+                //    h1.dispatchEvent(event);
+                //    return;
+                //}
+
+                counter += 1;
+                if (counter === 3) {
+                    h1.dispatchEvent(event);
+                    counter = 0;
+                }
+
+                setTimeout(function () {
+                    counter = 0;
+                }, 1000);
+            });
+        }());
+    </script>
+</body>
+</html>

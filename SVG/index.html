@@ -1,0 +1,72 @@
+﻿<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title>UI - SVG</title>
+    <style>
+        svg{
+            border: 10px solid black;
+            background-color: #0f0;
+        }
+
+        svg rect{
+            fill: purple;
+            stroke: white;
+        }
+    </style>
+</head>
+<body>
+    <svg width="500" height="400" fill="#black">
+        <rect x="10" y="10" width="100" height="50" fill="#f00" stroke="#0f0" stroke-width="1" />
+        <line x1="165" y1="20" x2="200" y2="20" stroke="#000" stroke-width="3" />
+        <circle cx="30" cy="100" r="15" fill="#f00" />
+        <circle cx="30" cy="100" r="10" fill="none" stroke="#00f" />
+        <circle cx="30" cy="100" r="5" fill="#0f0" />
+
+        <circle cx="100" cy="100" r="15" fill="#f00" />
+        <circle cx="100" cy="100" r="10" fill="none" stroke="#00f" />
+        <circle cx="100" cy="100" r="5" fill="#0f0" />
+        <!--line-->
+        <path d="M30 100 L50 50 100 50 100 100 150 50 150 100" stroke="white" fill="none" />
+        <path d="M30 100 l50 50 100 50 L100 100 150 150 150 100" stroke="black" fill="none" />
+        <!--bezier-->
+        <path d="M30 100 C0 0 200 0 100 100 S150 200 150 100" stroke="black" fill="none" />
+        <!--qudratic bezier-->
+        <path d="M30 100 Q0 0 100 100 T150 200 200 250 150 100" stroke="yellow" fill="none" />
+    </svg>
+    <script>
+        var svg = document.querySelector('svg'),
+            svgNs = 'http://www.w3.org/2000/svg',
+            rect = document.createElementNS(svgNs, 'rect'),
+            pi
+        x = 200,
+        y = 50,
+        rectWidth = 150,
+        rectHeight = 50,
+        change = 1,
+        svgWidth = svg.getAttribute('width');
+
+        rect.setAttribute('x', x);
+        rect.setAttribute('y', y);
+        rect.setAttribute('width', rectWidth);
+        rect.setAttribute('height', rectHeight);
+        svg.appendChild(rect);
+
+        relocateRect();
+        function relocateRect() {
+            var currentX = rect.getAttribute('x') | 0;
+            if (currentX + rectWidth > svgWidth - 1 ||
+                currentX < 1) {
+                change = -change;
+            }
+
+            rect.setAttribute('x', currentX + change);
+            setTimeout(function () {
+                relocateRect();
+            }, 50);
+        }
+
+        //pieChart
+
+    </script>
+</body>
+</html>

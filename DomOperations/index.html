@@ -1,0 +1,194 @@
+﻿<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title>DOM Operations</title>
+    <style>
+        #scrowList > li {
+            display: none;
+        }
+
+        #scrowList > li:first-child{
+            display: block;
+        }
+
+        .redText{
+            color: red;
+        }
+    </style>
+</head>
+<body>
+    <button id="nextButton">Next</button>
+    <ul id="scrowList">
+        <li>
+            <a href="#">
+                <span>Item 01</span>
+            </a>
+        </li>
+        <li>
+            <a href="#">
+                <span>Item 02</span>
+            </a>
+        </li>
+        <li>
+            <a href="#">
+                <span>Item 03</span>
+            </a>
+        </li>
+        <li>
+            <a href="#">
+                <span>Item 04</span>
+            </a>
+        </li>
+        <li>
+            <a href="#">
+                <span>Item 05</span>
+            </a>
+        </li>
+    </ul>
+    <button id="previousButton">Previous</button>
+    <hr />
+    <button id="addFirstButton">Add First</button>
+    <button id="addSecondButton">Add Second</button>
+    <button id="addBeforeLastButton">Add Before Last</button>
+    <button id="addLastButton">Add Last</button>
+    <ul id="appendItemsList">
+        <li>Item 01</li>
+        <li>Item 02</li>
+        <li>Item 03</li>
+        <li>Item 04</li>
+        <li>Item 05</li>
+    </ul>
+    <hr />
+    <button id="docFragButton">Append Children</button>
+    <button id="deleteButton">Delete Children</button>
+    <ul id="docFragList">
+        <li>Item 01</li>
+        <li>Item 02</li>
+    </ul>
+    <script>
+        (function () {
+            var ul = document.getElementById('scrowList'),
+                li = ul.firstElementChild,
+                parrent;
+
+            function showNext() {
+                if (li.nextElementSibling !== null) {
+                    hide(li);
+                    li = li.nextElementSibling;
+                    show(li);
+                } else {
+                    parrent = li.parentElement;
+                    hide(li);
+                    li = parrent.firstElementChild;
+                    show(li);
+                }
+            }
+
+            function showPrevious() {
+                if (li.previousElementSibling !== null) {
+                    hide(li);
+                    li = li.previousElementSibling;
+                    show(li);
+                } else {
+                    parrent = li.parentElement;
+                    hide(li);
+                    li = parrent.lastElementChild;
+                    show(li);
+                }
+            }
+
+            function hide(element) {
+                element.style.display = 'none';
+            }
+
+            function show(element) {
+                element.style.display = 'block';
+            }
+
+            document.getElementById('nextButton').addEventListener('click', showNext);
+            document.getElementById('previousButton').addEventListener('click', showPrevious);
+        }());
+
+        (function () {
+            var ul = document.getElementById('appendItemsList'),
+                li;
+            li = document.createElement('li');
+            li.innerHTML = 'NEW ITEM';
+            
+            function appendFirst() {
+                ul.insertBefore(li, ul.firstElementChild);
+            }
+
+            function appendSecond() {
+                if (ul.firstElementChild === li) {
+                    ul.insertBefore(li, ul.firstElementChild.nextElementSibling.nextElementSibling);
+                } else {
+                    ul.insertBefore(li, ul.firstElementChild.nextElementSibling);
+                }
+            }
+
+            function appendBeforeLast() {
+                if (ul.lastElementChild === li) {
+                    ul.insertBefore(li, ul.lastElementChild.previousElementSibling);
+                } else {
+                    ul.insertBefore(li, ul.lastElementChild);
+                }
+            }
+
+            function appendLast() {
+                ul.insertBefore(li, ul.lastElement);
+            }
+
+            document.getElementById('addFirstButton').addEventListener('click', appendFirst);
+            document.getElementById('addSecondButton').addEventListener('click', appendSecond);
+            document.getElementById('addBeforeLastButton').addEventListener('click', appendBeforeLast);
+            document.getElementById('addLastButton').addEventListener('click', appendLast);
+        }());
+
+        (function () {
+            function appendChildren() {
+                var docFragment = document.createDocumentFragment(),
+                    list = document.getElementById('docFragList'),
+                    count = 1000,
+                    i,
+                    li,
+                    a, 
+                    span;
+
+                span = document.createElement('span');
+                a = document.createElement('a');
+                a.appendChild(span);
+                li = document.createElement('li');
+                li.appendChild(a);
+
+                for (i = 0; i < count; i += 1) {
+                    span.innerHTML = 'Item ' + i;
+                    a.setAttribute('href', '#' + i)
+                    docFragment.appendChild(li.cloneNode(true));
+                }
+
+                list.appendChild(docFragment);
+            }
+
+            document.getElementById('docFragButton').addEventListener('click', appendChildren);
+            document.getElementById('deleteButton').addEventListener('click', function () {
+                document.getElementById('docFragList').innerHTML = '';
+            });
+
+            function fastElementAddHack() {
+                var i,
+                    length = 1000,
+                    ul = document.getElementById('docFragList'),
+                    content = '';
+                for (i = 0; i < length; i+=1) {
+                    content += '<li><a href="#' + i + '"><span>Item ' + i + '</span></a></li>';
+                }
+
+                ul.innerHTML = content;
+            }
+
+            fastElementAddHack();
+        }());
+    </script>
+</body>
+</html>

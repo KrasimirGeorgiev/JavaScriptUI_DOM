@@ -1,0 +1,84 @@
+﻿<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title>KineticJs</title>
+    <script src="kinetic-v5.0.2.js"></script>
+</head>
+<body>
+    <div id="canvas-container"></div>
+    <script>
+        initKinetic();
+        function initKinetic() {
+            var stage = new Kinetic.Stage({
+                    container: 'canvas-container',
+                    width: 1260,
+                    height: 500,
+                    }),
+                layer = new Kinetic.Layer({
+                }),
+                rectBackground = new Kinetic.Rect({
+                    x: 0,
+                    y: 0,
+                    height: stage.attrs.height,
+                    width: stage.attrs.width,
+                    fill: 'transparent',
+                    draggable: false,
+                    name: 'rectBackground',
+                    stroke: '#000',
+                }),
+                rotatedRect = new Kinetic.Rect({
+                    x: 200,
+                    y: 150,
+                    width: 100,
+                    height: 100,
+                    draggable: true,
+                    dragBoundFunc: function (pos) {
+                        if (pos.x < 100) {
+                            pos.x = 100;
+                        }
+
+                        if (pos.x > 300) {
+                            pos.x = 300;
+                        }
+
+                        if (pos.y < 100) {
+                            pos.y = 100;
+                        }
+
+                        if (pos.y > 300) {
+                            pos.y = 300;
+                        }
+
+                        return ({ x: pos.x, y: pos.y });
+                    },
+                    fill: '#fff',
+                    stroke: 'red',
+                }).rotate(45),
+                frontLayer = new Kinetic.Layer({
+                }),
+                frontLayerRect = new Kinetic.Rect({
+                    x: 100,
+                    y: 50,
+                    width: 50,
+                    height: 100,
+                    fill: '#000',
+                    stroke: 'red',
+                });
+
+            rotatedRect.addEventListener('click', function () {
+                if (this.fill() === '#fff') {
+                    this.fill('#000');
+                } else {
+                    this.fill('#fff');
+                }
+            });
+
+            layer.add(rectBackground);
+            layer.add(rotatedRect);
+            stage.add(layer);
+            frontLayer.add(frontLayerRect);
+            stage.add(frontLayer);
+        }
+    </script>
+</body>
+</html>

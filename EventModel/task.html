@@ -1,0 +1,118 @@
+﻿<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title>Task 1</title>
+</head>
+<body>
+    <!--ul#list>li*5>{Item $$}+span.button{Item $$}+a.content[href=#]>{Link $$}-->
+    <ul id="list">
+        <li>
+            Item 01
+            <span class="button" title=".button">no .content before next .button</span>
+            <a href="#">NO HIDE</a>
+            <span class="button" title=".button">Item 001</span>
+            <a href="#" class="content">Link .content 01</a>
+            <span class="button" title=".button">no .content after this .button</span>
+        </li>
+        <li>
+            Item 02
+            <span class="button" title=".button">Item 02</span>
+            <a href="#" class="content">Link .content 02</a>
+        </li>
+        <li>
+            Item 03
+            <span class="button" title=".button">Item 03</span>
+            <a href="#" class="content">Link .content 03</a>
+        </li>
+        <li>
+            Item 04
+            <span class="button" title=".button">Item 04</span>
+            <a href="#" class="content">Link .content 04</a>
+        </li>
+        <li>
+            Item 05
+            <span class="button" title=".button">Item 05</span>
+            <a href="#" class="content">Link .content 05</a>
+        </li>
+    </ul>
+    <script>
+        function addEventHandler(el, eventType, callback, useCapture) {
+            if (document.addEventListener) {
+                el.addEventListener(eventType, callback, useCapture);
+            }
+            else if (document.attachEvent) {
+                el.attachEvent('on' + eventType, callback);
+            }
+            else {
+                el['on' + eventType] = callback;
+            }
+        }
+
+        (function () {
+            showOrHide('list');
+
+            function showOrHide(element) {
+                var domElement;
+                if (typeof element === 'string') {
+                    domElement = document.getElementById(element);
+                } else {
+                    domElement = element;
+                }
+
+                try {
+                    domElement.cloneNode(false);
+                } catch (e) {
+                    throw new Error('Element is non-existant!');
+                }
+
+                changeButtonClassChildrenElementsContent(domElement, 'hide');
+
+                addEventHandler(domElement, 'click', showContentSibling)
+            }
+
+            function changeButtonClassChildrenElementsContent(element, content) {
+                var child,
+                    i,
+                    length,
+                    children = document.getElementsByClassName('button');
+
+                for (i = 0, length = children.length; i < length; i += 1) {
+                    child = children[i];
+                    child.innerHTML = content;
+                }
+            }
+
+            function showContentSibling(ev) {
+                var target, 
+                    siblng;
+                if (!event) {
+                    event = window.event
+                }
+
+                target = event.target;
+
+                if (target.className === 'button') {
+                    sibling = target.nextElementSibling;
+                    while (sibling !== null) {
+                        if (sibling.className === 'content') {
+                            if (target.innerHTML === 'show') {
+                                sibling.style.display = 'inline-block';
+                                target.innerHTML = 'hide';
+                            } else {
+                                sibling.style.display = 'none';
+                                target.innerHTML = 'show';
+                            }
+
+                            break;
+                        } else if (sibling.className === 'button') {
+                            break;
+                        }
+
+                        sibling = sibling.nextElementSibling;
+                    }
+                }
+            }
+        }());
+    </script>
+</body>
+</html>

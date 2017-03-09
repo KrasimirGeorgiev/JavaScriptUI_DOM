@@ -1,0 +1,78 @@
+﻿<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title>Toggle Class</title>
+    <style>
+        .red {
+            background-color: #f00;
+        }
+
+        .green {
+            background-color: #0f2;
+        }
+
+        .orange{
+            background-color: #f60;
+        }
+
+        .colorednoredorgreen{
+            color: #000;
+        }
+
+        .withFontSizeNoredORgreenororange{
+            font-size: 1.1em;
+        }
+    </style>
+</head>
+<body>
+    <button id="toggleHTML5Button" class="colorednoredorgreenororange green withFontSizeNoredORgreenororange">Toggle (HTML5)</button>
+    <button id="toggleWithRegexButton" class="colorednoredorgreenororange red withFontSizeNoredORgreenororange">Toggle (Regex)</button>
+    <button id="toggleWithRegexButtonOrange" class="colorednoredorgreenororange orange withFontSizeNoredORgreenororange">Toggle (Regex)</button>
+    <button id="removeClassButton" class="colorednoredorgreenororange orange withFontSizeNoredORgreenororange">Remove Class (Regex)</button>
+    <script>
+        document.getElementById('toggleHTML5Button')
+            .addEventListener('click', function (ev) {
+                this.classList.toggle('red');
+                this.classList.toggle('green');
+            });
+
+        document.getElementById('toggleWithRegexButton')
+            .addEventListener('click', function () {
+                toggleClassesWithRegex(this, 'red', 'green');
+            });
+
+        document.getElementById('toggleWithRegexButtonOrange')
+            .addEventListener('click', function () {
+                toggleClassesWithRegex(this, 'orange', 'green');
+            });
+
+        document.getElementById('removeClassButton')
+            .addEventListener('click', function () {
+                removeClassesWithRegex(this, 'orange');
+            });
+
+        function toggleClassesWithRegex(element, firstClass, secondClass) {
+            var regex = new RegExp('(?:^|\\s)' + firstClass + '(?!\\S)', 'g');
+            if (element.className.match(regex)) {
+                element.className =
+                    element.className.replace
+                      (regex, ' ' + secondClass);
+            } else {
+                regex = new RegExp('(?:^|\\s)' + secondClass + '(?!\\S)', 'g');
+                element.className =
+                    element.className.replace
+                      (regex, ' ' + firstClass);
+            }
+        }
+
+        function removeClassesWithRegex(element, className) {
+            var regex = new RegExp('(?:^|\\s)' + className + '(?!\\S)', 'g');
+            if (element.className.match(regex)) {
+                element.className =
+                    element.className.replace
+                      (regex, '');
+            }
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,75 @@
+﻿<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title></title>
+</head>
+<body id="body">
+    <div>STATIC querySelectorAll: <span id="querySelectorAll"></span></div>
+    <div>LIVE getElementsByClassName: <span id="getElementsByClassName"></span></div>
+    <div>LIVE getElementsByName: <span id="getElementsByName"></span></div>
+    <div>LIVE getElementsByTagName: <span id="getElementsByTagName"></span></div>
+    <button id="addBtn">Add</button>
+    <button id="removeBtn">Remove</button>
+    <ul>
+        <li>
+            <label for="animal1" class="labels">
+                Animal 1
+                <input type="radio" value="dog1" name="animal" id="animal1" />
+            </label>
+        </li>
+        <li>
+            <label for="animal2" class="labels">
+                Animal 2
+                <input type="radio" value="dog2" name="animal" id="animal2" />
+            </label>
+        </li>
+        <li>
+            <label for="animal3" class="labels">
+                Animal 3
+                <input type="radio" value="dog3" name="animal" id="animal3" />
+            </label>
+        </li>
+    </ul>
+    <script>
+        // selects first label
+        var querySelector = document.querySelector('label');
+
+        // selects element with id
+        var elementSelectedById = document.getElementById('animal1');
+        
+        // STATIC NODE LIST
+        var querySelectorAllLabels = document.querySelectorAll('label'),
+            // LIVE NODE LISTS
+            labelsByClassName = document.getElementsByClassName('labels'),
+            labelsByName = document.getElementsByName('animal'),
+            labelsByTagName = document.getElementsByTagName('label'),
+            counter = 3;
+        displayListsLength();
+        document.getElementById('addBtn').addEventListener('click', addLi);
+        document.getElementById('removeBtn').addEventListener('click', removeLi);
+
+        function addLi() {
+            counter += 1;
+            var ul = document.getElementsByTagName('ul')[0];
+            ul.innerHTML += '<li><label for="animal' + counter + '" class="labels">Animal ' + counter
+                + '<input type="radio" value="dog' + counter + '" name="animal" id="animal' + counter + '" /></label></li>';
+            
+            displayListsLength();
+        }
+
+        function removeLi() {
+            var lastChild = document.getElementsByTagName('ul')[0].lastElementChild;
+            document.getElementsByTagName('ul')[0].removeChild(lastChild);
+            counter -= 1;
+            displayListsLength();
+        }
+
+        function displayListsLength() {
+            document.getElementById('querySelectorAll').innerHTML = querySelectorAllLabels.length;
+            document.getElementById('getElementsByClassName').innerHTML = labelsByClassName.length;
+            document.getElementById('getElementsByName').innerHTML = labelsByName.length;
+            document.getElementById('getElementsByTagName').innerHTML = labelsByTagName.length;
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,52 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 2013
+VisualStudioVersion = 12.0.31101.0
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DOM", "DOM\DOM.csproj", "{1815F998-AC0D-4394-8031-AB1EE8F7850B}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Canvas", "Canvas\Canvas.csproj", "{A65F9716-C0BC-4626-8D16-C514092A87B0}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SVG", "SVG\SVG.csproj", "{8B7D5A52-4FCA-41AC-891E-566E81114E7A}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Kinetic", "Kinetic\Kinetic.csproj", "{9A7D1738-3FFB-4357-8DAD-A87CA5474098}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DomOperations", "DomOperations\DomOperations.csproj", "{38239B06-FC79-46B9-8B4B-D62343AC5D4A}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EventModel", "EventModel\EventModel.csproj", "{4843B170-D72C-43BC-AE0B-57EE20C79400}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{1815F998-AC0D-4394-8031-AB1EE8F7850B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1815F998-AC0D-4394-8031-AB1EE8F7850B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1815F998-AC0D-4394-8031-AB1EE8F7850B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1815F998-AC0D-4394-8031-AB1EE8F7850B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A65F9716-C0BC-4626-8D16-C514092A87B0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A65F9716-C0BC-4626-8D16-C514092A87B0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A65F9716-C0BC-4626-8D16-C514092A87B0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A65F9716-C0BC-4626-8D16-C514092A87B0}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8B7D5A52-4FCA-41AC-891E-566E81114E7A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8B7D5A52-4FCA-41AC-891E-566E81114E7A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8B7D5A52-4FCA-41AC-891E-566E81114E7A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8B7D5A52-4FCA-41AC-891E-566E81114E7A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9A7D1738-3FFB-4357-8DAD-A87CA5474098}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9A7D1738-3FFB-4357-8DAD-A87CA5474098}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9A7D1738-3FFB-4357-8DAD-A87CA5474098}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9A7D1738-3FFB-4357-8DAD-A87CA5474098}.Release|Any CPU.Build.0 = Release|Any CPU
+		{38239B06-FC79-46B9-8B4B-D62343AC5D4A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{38239B06-FC79-46B9-8B4B-D62343AC5D4A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{38239B06-FC79-46B9-8B4B-D62343AC5D4A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{38239B06-FC79-46B9-8B4B-D62343AC5D4A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4843B170-D72C-43BC-AE0B-57EE20C79400}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4843B170-D72C-43BC-AE0B-57EE20C79400}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4843B170-D72C-43BC-AE0B-57EE20C79400}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4843B170-D72C-43BC-AE0B-57EE20C79400}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal

@@ -1,0 +1,328 @@
+﻿<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title>UI - Canvas</title>
+    <style>
+        canvas {
+            background-color: rgba(255, 255, 255, 0.5);
+        }
+    </style>
+</head>
+<body>
+    <canvas id="the-canvas" width="500" height="600">Canvas is not suported. Update browser!</canvas>
+    <canvas id="animation-canvas" width="500" height="400">Canvas is not suported. Update browser!</canvas>
+    <canvas id="bouncing-ball-canvas" width="200" height="200">Canvas is not suported. Update browser!</canvas>
+    <canvas id="snake-canvas" width="200" height="200">Snake game under construction!</canvas>
+    <script>
+        var canvas = document.getElementById('the-canvas');
+        var ctx = canvas.getContext('2d');
+        ctx.strokeRect(0, 0, 500, 600);
+        ctx.fillRect(50, 100, 30, 70);
+        ctx.lineWidth = 5;
+        ctx.strokeStyle = '#dae';
+        ctx.strokeRect(50, 100, 30, 70);
+
+        // line
+        ctx.beginPath();
+        ctx.moveTo(10, 10);
+        ctx.lineTo(490, 10);
+        ctx.lineTo(490, 390);
+        ctx.lineTo(10, 390);
+        ctx.closePath();
+        ctx.stroke();
+
+        // circle
+        ctx.beginPath();
+        ctx.arc(200, 100, 50, 0 * Math.PI, 2 * Math.PI);
+        ctx.fill();
+        ctx.stroke();
+
+        // half circle
+        ctx.beginPath();
+        ctx.arc(350, 100, 50, 0 * Math.PI, 1 * Math.PI);
+        ctx.lineTo(400, 100);
+        ctx.closePath();
+        ctx.fillStyle = 'rgba(0, 0, 0, 0.5)';
+        ctx.fill();
+        ctx.stroke();
+
+        // quarter circle
+        ctx.beginPath();
+        ctx.arc(200, 250, 50, 1 * Math.PI, 1.5 * Math.PI);
+        ctx.lineTo(200, 250);
+        ctx.closePath();
+        ctx.fillStyle = 'rgba(0, 0, 0, 0.5)';
+        ctx.fill();
+        ctx.stroke();
+
+        // qudratic curve
+
+        ctx.beginPath();
+        ctx.moveTo(0, 200);
+        ctx.quadraticCurveTo(100, 300, 0, 400);
+        ctx.stroke();
+
+        // text
+        ctx.lineWidth = 1;
+        ctx.font = 'italic bold 50px Tahoma';
+        ctx.fillText('Pesho', 100, 300);
+        ctx.strokeText('Gosho', 250, 300);
+
+        // getImageData
+        var imageData = ctx.getImageData(200, 100, 60, 60),
+            whiteImageData = ctx.getImageData(20, 20, 60, 60),
+            k,
+            len;
+        for (k = 0, len = imageData.data.length; k < len; k += 4) {
+            imageData.data[k] += 10;     // r
+            imageData.data[k + 1] += 10; // g
+            imageData.data[k + 2] += 10; // b
+            //imageData.data[k + 3] = 33; // alpha
+        }
+
+        ctx.putImageData(whiteImageData, 200, 100);
+        ctx.putImageData(imageData, 210, 110);
+
+        // image
+        var img = new Image();
+
+        img.onload = function () {
+            var scaleIndex = img.width / 150,
+                imgWidth = img.width / scaleIndex,
+                imgHeight = img.height / scaleIndex;
+            ctx.drawImage(img, 200, 400, imgWidth, imgHeight);
+            ctx.drawImage(img, 0, 400, imgWidth, imgHeight);
+
+            var imageData = ctx.getImageData(200, 400, imgWidth, imgHeight),
+            k,
+            len;
+            for (k = 0, len = imageData.data.length; k < len; k += 4) {
+                imageData.data[k] += 33;     // r
+                imageData.data[k + 1] += 44; // g
+                imageData.data[k + 2] += 55; // b
+                // imageData.data[k + 3] = 123; // alpha
+            }
+
+            ctx.putImageData(imageData, 200, 400);
+
+        };
+
+        img.src = "dude.jpg";
+
+        // curve with animation
+        var animationCanvas = document.getElementById('animation-canvas'),
+            animationCtx = animationCanvas.getContext('2d'),
+            i = 0
+        j = 100,
+        startPoint = {
+            x: 0,
+            y: 100,
+        },
+        endPoint = {
+            x: 0,
+            y: 300,
+        },
+        add = 1,
+        addJ = 1;
+
+        animation();
+
+        function animation() {
+            animationCtx.clearRect(0, 0, animationCanvas.width, animationCanvas.height);
+            animationCtx.strokeRect(0, 0, 500, 400);
+            var controlPoint = {
+                x: 100 + i * 5,
+                y: j * 5,
+            }
+
+            i += add;
+            j += addJ;
+
+            if (j > 75) {
+                addJ = -1;
+            }
+
+            if (j < 0) {
+                addJ = 1;
+            }
+            if (i > 111) {
+                add = -1;
+            }
+
+            if (i < 0) {
+                add = 1;
+            }
+
+            drawCurve(animationCtx, startPoint, endPoint, controlPoint);
+            requestAnimationFrame(animation);
+        }
+
+        function drawCurve(context, startPoint, endPoint, contolPoint) {
+            context.beginPath();
+            context.moveTo(startPoint.x, startPoint.y);
+            context.quadraticCurveTo(contolPoint.x, contolPoint.y, endPoint.x, endPoint.y);
+            context.stroke();
+        }
+
+        // bouncing ball
+        (function () {
+            var bouncingBallCanvas = document.getElementById('bouncing-ball-canvas'),
+            bouncingBallCtx = bouncingBallCanvas.getContext('2d'),
+            x = 0,
+            y = 0,
+            verticalDirection = 'D',
+            horizontalDirection = 'R',
+            speed = 0,
+            horizontalSpeed = 5;
+
+            bouncingBallCtx.strokeRect(0, 0, 200, 200);
+            bounceBall();
+
+            function bounceBall() {
+                //bouncingBallCtx.clearRect(0, 0, bouncingBallCanvas.width, bouncingBallCanvas.height);
+                //bouncingBallCtx.strokeRect(0, 0, 200, 200);
+
+                // horizontal move
+                if (horizontalDirection === 'R') {
+                    if (x < bouncingBallCanvas.width - horizontalSpeed) {
+                        x += horizontalSpeed;
+                    } else {
+                        horizontalSpeed -= 1;
+                        horizontalDirection = 'L';
+                    }
+                } else {
+                    if (x - horizontalSpeed > 1) {
+                        x -= horizontalSpeed;
+                    } else {
+                        horizontalSpeed -= 1;
+                        horizontalDirection = 'R';
+                    }
+                }
+
+                // vertical move
+                if (verticalDirection === 'D') {
+                    if (y < 198) {
+                        speed += 1;
+                        y += speed;
+                    } else {
+                        verticalDirection = 'U';
+                    }
+                } else {
+                    if (speed > 0) {
+                        speed -= 1;
+                        y -= speed;
+                    } else {
+                        verticalDirection = 'D';
+                    }
+                }
+
+
+                bouncingBallCtx.beginPath();
+                bouncingBallCtx.arc(x, y, 2, 0 * Math.PI, 2 * Math.PI);
+                bouncingBallCtx.stroke();
+
+                if (speed !== 0 || y !== 198) {
+                    requestAnimationFrame(bounceBall);
+                } else {
+                    setTimeout(function () {
+                        bouncingBallCtx.clearRect(0, 0, bouncingBallCanvas.width, bouncingBallCanvas.height);
+                        bouncingBallCtx.strokeRect(0, 0, 200, 200);
+                        speed = 0;
+                        horizontalSpeed = 5;
+                        x = (Math.random() * 200) | 0;
+                        y = (Math.random() * 200) | 0;
+                        requestAnimationFrame(bounceBall);
+                    }, 1000)
+                }
+            }
+        }());
+
+        // snake
+        (function () {
+            var direction = 'UP';
+            function setKey(event) {
+                var code = event.keyCode;
+
+                switch (code) {
+                    case 37:
+                        if (direction !== 'RIGHT') {
+                            direction = 'LEFT';
+                        }
+
+                        break;
+                    case 38:
+                        if (direction !== 'DOWN') {
+                            direction = 'UP';
+                        }
+
+                        break;
+                    case 39:
+                        if (direction !== 'LEFT') {
+                            direction = 'RIGHT';
+                        }
+
+                        break;
+                    case 40:
+                        if (direction !== 'UP') {
+                            direction = 'DOWN';
+                        }
+
+                        break;
+                    default:
+                        break;
+                }
+            }
+
+            document.addEventListener('keydown', function (event) {
+                setKey(event);
+            });
+
+            var snakeCanvas = document.getElementById('snake-canvas'),
+                snakeCtx = snakeCanvas.getContext('2d'),
+                snakeCanvasWidth = 200,
+                snakeCanvasHeight = 200,
+                x = 100,
+                y = 100,
+                points = 0,
+                speed = 10,
+                lastDirection = direction;
+
+            snakeCtx.strokeRect(0, 0, snakeCanvasWidth, snakeCanvasHeight);
+            snakeGame();
+
+            function snakeGame() {
+                snakeCtx.clearRect(0, 0, snakeCanvasWidth, snakeCanvasHeight);
+                snakeCtx.strokeRect(0, 0, snakeCanvasWidth, snakeCanvasHeight);
+
+                if (x === 0 || x === snakeCanvasWidth || y === 0 || y === snakeCanvasHeight) {
+                    console.log('GAME OVER');
+                    console.log(points);
+                    return;
+                }
+
+                points += 1;
+                if (direction === 'UP') {
+                    y -= 1;
+                } else if (direction === 'DOWN') {
+                    y += 1;
+                } else if (direction === 'LEFT') {
+                    x -= 1;
+                } else if (direction === 'RIGHT') {
+                    x += 1;
+                }
+
+                speed += 10;
+
+                snakeCtx.beginPath();
+                snakeCtx.arc(x, y, 2, 0 * Math.PI, 2 * Math.PI);
+                snakeCtx.stroke();
+
+                setTimeout(function () {
+                    requestAnimationFrame(snakeGame);
+                }, 1000 - speed);
+            }
+        }());
+        
+    </script>
+</body>
+</html>

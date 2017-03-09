@@ -1,0 +1,104 @@
+﻿<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title>Tag Cloud</title>
+    <style>
+        #tag-cloud {
+            width: auto;
+            text-align: justify;
+        }
+
+        span{
+            margin: 5px;
+        }
+
+        a {
+            text-decoration: none;
+            color: blue;
+        }
+
+            a:hover {
+                color: red;
+            }
+    </style>
+</head>
+<body>
+    <div id="tag-cloud">
+
+    </div>
+    <script>
+        (function () {
+            var tags = ["cms", "js", "ASP.NET MVC", ".net", ".net", "css", "xaml", "http", "web", "ASP.NET MVC", "wp", "javascript", "js", "cms", "html", "javascript", "http", "http", "CMS", "cms", "javascript", "js", "ASP.NET MVC", ".net", ".net", "css", "xaml", "js", "http", "web", "asp.net", "asp.net MVC", "ASP.NET MVC", "wp", "javascript", "js", "cms", "html", "javascript", "http", "http", "CMS", "cms", "javascript", "js", "ASP.NET MVC", ".net", ".net", "css", "wordpress", "xaml", "js", "http", "web", "asp.net", "asp.net MVC", "ASP.NET MVC", "wp", "javascript", 'perl', 'c#', "js", "cms", "html", "javascript", "http", "http", "CMS", "cms", "javascript", "js", "ASP.NET MVC", ".net", ".net", "html", "javascript", "http", "http", "CMS", 'java', 'java', 'java', 'java', 'java', 'java', 'java', 'java', 'java'],
+                    counterOfTags = [],
+                    uniqueTags = [],
+                    tag,
+                    i,
+                    j,
+                    length,
+                    uniquetagsLength,
+                    isFound,
+                    maxCounted,
+                    tagCloud;
+            uniqueTags.push(tags[0].toLowerCase());
+            counterOfTags.push(1);
+
+            for (i = 1, length = tags.length; i < length; i += 1) {
+                tag = tags[i].toLowerCase();
+                isFound = false;
+                for (j = 0, uniquetagsLength = uniqueTags.length; j < uniquetagsLength; j += 1) {
+                    if (tag === uniqueTags[j]) {
+                        counterOfTags[j] += 1;
+                        isFound = true;
+                        break;
+                    }
+                }
+                if (isFound === false) {
+                    counterOfTags.push(1);
+                    uniqueTags.push(tag);
+                }
+            }
+
+            maxCounted = findMaxCounted(counterOfTags);
+            tagCloud = generateTagCloud(tags, maxCounted, 17, 42);
+
+            function generateTagCloud(tags, maxCounted, minFontSize, maxFontSize) {
+                var cloudTag,
+                    averageSizeAdding = averageFontSize(minFontSize, maxFontSize),
+                    docFragment = document.createDocumentFragment('div'),
+                    linkTemplate = document.createElement('a'),
+                    span = document.createElement('span');
+                span.appendChild(linkTemplate);
+                for (var i = 0; i < uniqueTags.length; i++) {
+                    linkTemplate.setAttribute('href', '#' + uniqueTags[i]);
+                    linkTemplate.innerHTML = uniqueTags[i] + ' ';
+                    linkTemplate.style.fontSize = (maxFontSize - (maxCounted - counterOfTags[i]) * averageSizeAdding) + 'px';
+                    docFragment.appendChild(span.cloneNode(true));
+                }
+
+                cloudTag = document.getElementById('tag-cloud');
+                cloudTag.appendChild(docFragment);
+            }
+
+            function averageFontSize(minFontSize, maxFontSize) {
+                var sizeDiference = maxFontSize - minFontSize,
+                averageSizeAdding = Math.round(sizeDiference / maxCounted);
+
+                return averageSizeAdding;
+            }
+
+            function findMaxCounted(tags) {
+                var max = tags[0],
+                i,
+                length;
+                for (i = 1, length = tags.length; i < length; i += 1) {
+                    if (max < tags[i]) {
+                        max = tags[i];
+                    }
+                }
+
+                return max;
+            }
+        }());
+    </script>
+</body>
+</html>
